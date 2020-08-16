@@ -1,2 +1,6 @@
 *.ppt*
 *.zip
+data/
+*.bin
+*.mod/
+__pycache__
