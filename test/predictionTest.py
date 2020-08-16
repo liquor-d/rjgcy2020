@@ -32,10 +32,10 @@ def getTrain(stock,train_ratio=0.5,validation_ratio=0.2,features=range(0,4)):
 
     x_train=x_scalar.fit_transform(x[0:train_ends,:])
     y_train=y_scalar.fit_transform(y[0:train_ends]).reshape(-1)
-    
+
     x_validation=x_scalar.transform(x[train_ends:validation_ends,:])
     y_validation=y_scalar.transform(y[train_ends:validation_ends]).reshape(-1)
-    
+
     x_test=x_scalar.transform(x[validation_ends:,:])
     y_test=y_scalar.transform(y[validation_ends:]).reshape(-1)
     return x_train,y_train,x_validation,y_validation,x_test,y_test,x_scalar,y_scalar
@@ -43,9 +43,6 @@ def getTrain(stock,train_ratio=0.5,validation_ratio=0.2,features=range(0,4)):
 
 # %% slice the time series for training
 def slice_time_series(x,y,win_size):
-# win_size=15
-# x=x_train
-# y=y_train
     x_sliced=[]
     y_sliced=[]
     for t in range(len(x)-win_size):
@@ -117,7 +114,7 @@ model=build_model(win_size,feature_size,hiden=30)
 # %% train
 result=model.fit(x_train,y_train,
     batch_size=100,
-    epochs=80,
+    epochs=30,
     validation_data=(x_validation,y_validation))
 
 # %% plot loss
@@ -150,16 +147,16 @@ y_hat=multi_step_predict(model,x_test[0],N=100,feature_size=feature_size)
 
 plt.plot(y_test,label='true')
 plt.plot(y_hat,label='prediction')
-plt.legend()    
+plt.legend()
 
-# %% 
+# %%
 start=56
 ndays=5
 y_hat=multi_step_predict(model,x_test[start],N=ndays,feature_size=feature_size)
 
 plt.plot(y_test[start:start+ndays],label='true')
 plt.plot(y_hat,label='prediction')
-plt.legend()  
+plt.legend()
 
 
 

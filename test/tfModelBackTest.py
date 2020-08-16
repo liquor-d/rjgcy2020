@@ -71,12 +71,12 @@ class MyStrategy(bt.Strategy):
             return
         
         scaled_x=x_scalar.transform(self.x_last)
-        y_hat=multi_step_predict(self.model,scaled_x,N=future,feature_size=self.feature_size)
+        y_hat=multi_step_predict(model,scaled_x,N=future,feature_size=self.feature_size)
 
         y=y_scalar.transform(np.array(self.data.close[0]).reshape(1,1))[0,0]
 
         buy_margin=0.03
-        sell_margin=-0.03
+        sell_margin=-0.01
         if self.order:  # 检查是否有指令等待执行,
             return
         # 检查是否持仓
@@ -105,8 +105,8 @@ MyStrategy.y_scalar=y_scalar
 
 # %%
 cerebro = bt.Cerebro()  # 初始化回测系统
-start_date = datetime(2013, 1, 1)  # 回测开始时间
-end_date = datetime(2015, 4, 21)  # 回测结束时间
+start_date = datetime(2018, 1, 1)  # 回测开始时间
+end_date = datetime(2019, 4, 21)  # 回测结束时间
 data = bt.feeds.PandasData(dataname=stock_hfq_df, fromdate=start_date, todate=end_date)  # 加载数据
 cerebro.adddata(data)  # 将数据传入回测系统
 cerebro.addstrategy(MyStrategy)  # 将交易策略加载到回测系统中
